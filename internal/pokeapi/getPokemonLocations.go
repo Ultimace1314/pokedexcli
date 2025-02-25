@@ -1,22 +1,36 @@
 package pokeapi
 
 import (
-	"fmt"
+	"encoding/json"
 	"io"
 	"net/http"
 )
 
-func getPokemonLocations(url string) (pokeLocations, error) {
+func getPokemonLocations(url string) pokeLocations {
+
 	res, err := http.Get(url)
+
 	if err != nil {
-		return pokeLocations{}, err
+		return pokeLocations{}
 	}
+
 	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
+	defer res.Body.Close()
+
 	if res.StatusCode > 299 {
-		return pokeLocations{}, fmt.Errorf("Response failed with status code: %d and\nbody: %s\n", res.StatusCode, body)
+		return pokeLocations{}
 	}
-	return pokeLocations{}, nil
+	if err != nil {
+		return pokeLocations{}
+	}
+
+	locations := pokeLocations{}
+	er := json.Unmarshal(body, &locations)
+	if er != nil {
+		return pokeLocations{}
+	}
+	return locations
+
 }
 
 type pokeLocations struct {
