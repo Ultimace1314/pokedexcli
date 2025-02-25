@@ -5,11 +5,15 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/Ultimace1314/pokedexcli/internal/pokeapi"
+	"github.com/Ultimace1314/pokedexcli/internal/pokecache"
 )
 
 func startRepl(cfg *config) {
+	const interval = 10 * time.Second
+	pokecache.NewCache(interval)
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -50,6 +54,7 @@ type config struct {
 	pokeapiClient    pokeapi.Client
 	nextLocationsURL *string
 	prevLocationsURL *string
+	cache            pokecache.Cache
 }
 
 func getCommands() map[string]cliCommand {
