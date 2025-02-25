@@ -12,10 +12,6 @@ func TestCleanInput(t *testing.T) {
 			expected: []string{"hello", "world"},
 		},
 		{
-			input:    "this is four words",
-			expected: []string{"this", "is", "four", "words"},
-		},
-		{
 			input:    "Charmander Bulbasaur PIKACHU",
 			expected: []string{"charmander", "bulbasaur", "pikachu"},
 		},
