@@ -23,6 +23,7 @@ func commandCatch(cft *config, pokemon ...string) error {
 		fmt.Printf("%s escaped!\n", pokemonName)
 	} else {
 		fmt.Printf("%s was caught!\n", pokemonName)
+		fmt.Printf("You may now inspect it with the inspect command.\n")
 		cft.pokedex[pokemonName] = pokemonData
 	}
 
